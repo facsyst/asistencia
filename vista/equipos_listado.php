@@ -32,15 +32,15 @@ $estados= array(0=>"ANULADO",1=>"ACTIVO");
             <td><?= $fila['modelo'] ?></td>
             <td><?= $fila['serie'] ?></td>
             <td><?= $estados[$fila['estado']] ?>
-            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idproducto'];?>)"><span class="fa fa-edit"></span> Editar</button>
+            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idproducto'];?>)"><span class="fa fa-edit"></span> </button>
             
             <?php if($fila['estado']==1){?>
-                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> Anular</button>
+                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> </button>
             <?php }else{ ?>
-                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> Activar</button>
+                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> </button>
             <?php }?>
             
-            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> Eliminar</button></td>
+            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> </button></td>
         </tr>
         <?php }?>
     </tbody>

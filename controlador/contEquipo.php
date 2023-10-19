@@ -1,5 +1,5 @@
 <?php 
-require_once("../modelo/equipo.php");equipo
+require_once("../modelo/Equipo.php");
 
 controlador($_POST['proceso']);
 
