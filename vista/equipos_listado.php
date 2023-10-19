@@ -10,7 +10,7 @@ $listado = $objEq->listar($nro, $estado);
 $estados= array(0=>"ANULADO",1=>"ACTIVO");
 ?>
 
-<table id="tablaProducto" class="table table-bordered table-hover table-striped table-sm">
+<table id="tablaEquipo" class="table table-bordered table-hover table-striped table-sm">
     <thead>
         <tr>
             <th>Código</th>
@@ -32,21 +32,21 @@ $estados= array(0=>"ANULADO",1=>"ACTIVO");
             <td><?= $fila['modelo'] ?></td>
             <td><?= $fila['serie'] ?></td>
             <td><?= $estados[$fila['estado']] ?>
-            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idproducto'];?>)"><span class="fa fa-edit"></span> </button>
+            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idequipo'];?>)"><span class="fa fa-edit"></span> </button>
             
             <?php if($fila['estado']==1){?>
-                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> </button>
+                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idequipo'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> </button>
             <?php }else{ ?>
-                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> </button>
+                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idequipo'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> </button>
             <?php }?>
             
-            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idproducto'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> </button></td>
+            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idequipo'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> </button></td>
         </tr>
         <?php }?>
     </tbody>
 </table>
 <script>
-$("#tablaProducto").DataTable({
+$("#tablaEquipo").DataTable({
       "paging": true,
       "responsive": true, 
       "lengthChange": false, 
@@ -62,29 +62,27 @@ $("#tablaProducto").DataTable({
 				 }
 			},
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#tablaProducto_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#tablaEquipo_wrapper .col-md-6:eq(0)');
 
 modoEdicion = false;
 idsubcategoria = 0;
-function Editar(idproducto){
+function Editar(idequipo){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contProducto.php',
+        url:    'controlador/contEquipo.php',
         data:{
             'proceso':'CONSULTAR',
-            'idproducto': idproducto
+            'idequipo': idequipo
         },
         dataType: 'json'
     }).done(function(retorno){
         modoEdicion = true;
-        $("#idproducto").val(retorno.idproducto);
-        $("#nombre").val(retorno.nombre);
-        $("#codigobarra").val(retorno.codigobarra);
-        $("#pventa").val(retorno.pventa);
-        $("#pcompra").val(retorno.pcompra);
-        $("#stock").val(retorno.stock);
-        $("#stockseguridad").val(retorno.stockseguridad);
-  
+        $("#idequipo").val(retorno.idequipo);
+        $("#nro").val(retorno.nro);
+        $("#marca").val(retorno.marca);
+        $("#modelo").val(retorno.modelo);
+        $("#serie").val(retorno.serie);
+        $("#estado").val(retorno.estado);
 
         $("#proceso").val("ACTUALIZAR");
         $("#modal-formulario").modal('show');
@@ -96,13 +94,13 @@ function Editar(idproducto){
     });
 }
 
-function CambiarEstado(idproducto, estado){
+function CambiarEstado(idequipo, estado){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contProducto.php',
+        url:    'controlador/contEquipo.php',
         data:{
             'proceso':'CAMBIAR_ESTADO',
-            'idproducto': idproducto,
+            'idequipo': idequipo,
             'estado': estado
         },
         dataType: 'json'
@@ -117,8 +115,8 @@ function CambiarEstado(idproducto, estado){
     });
 }
 
-function CambiarEstadoModal(idproducto,estado,nombre){
-    $("#idcambiarestado").val(idproducto);
+function CambiarEstadoModal(idequipo,estado,nombre){
+    $("#idcambiarestado").val(idequipo);
     $("#cambioestado").val(estado);
     texto_accion="ELIMINAR";
     if(estado==1){ texto_accion="ACTIVAR"; }

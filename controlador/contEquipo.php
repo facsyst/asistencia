@@ -83,20 +83,7 @@ function controlador($proceso){
             echo json_encode($retorno);
             break;
         
-        case 'SUBIR_IMAGEN':
-                try{
-                    if (empty($_FILES)) {
-                        throw new Exception("No se encontraron archivos para cargar.", 123);
-                    }
-                    $archivo = $_FILES['uploadFile'];
-                    $ruta = "imagenes/equipos/IMG_".$_POST['idequipo']."_".$archivo["name"];
-                    move_uploaded_file($archivo["tmp_name"], "../".$ruta);
-                    $objEqu->actualizarImagen($_POST['idequipo'],$ruta);
-                    echo '[]';
-                }catch(Exception $ex){
-                    //nada
-                }
-                break;   
+        
         case 'VER_MOVIMIENTOS':
             try{
 
