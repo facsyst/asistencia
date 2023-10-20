@@ -1,5 +1,5 @@
 <?php 
-require_once("../horaentrada/Asistencia.php");
+require_once("../modelo/Asistencia.php");
 
 controlador($_POST['proceso']);
 
@@ -9,8 +9,8 @@ function controlador($proceso){
         case "NUEVO":
             $retorno = array();
             try{
-                $duplicado = $objAs->verificarDuplicado(trim($_POST['idpersonal']));
-                if($duplicado->rowCount()==0){
+                #$duplicado = $objAs->verificarDuplicado(trim($_POST['idpersonal']));
+                #if($duplicado->rowCount()==0){
                     $asistencia = array();
                     $asistencia["idpersonal"] = trim($_POST["idpersonal"]);
                     $asistencia["fecha"] = $_POST["fecha"];
@@ -22,9 +22,9 @@ function controlador($proceso){
                                    
                     $retorno['correcto']=true;
                     $retorno['mensaje']="Registro satisfactorio";
-                }else{
-                    throw new Exception("idpersonal de asistencia ya existe.",1);
-                }                
+                #}else{
+                   # throw new Exception("idpersonal de asistencia ya existe.",1);
+                #}                
             }catch(Exception $ex){
                 $retorno['correcto']=false;
                 $retorno['mensaje']=$ex->getMessage();
@@ -35,8 +35,8 @@ function controlador($proceso){
         case "ACTUALIZAR":
             $retorno = array();
             try{
-                $duplicado = $objAs->verificarDuplicado(trim($_POST['idpersonal']),$_POST['idasistencia']);
-                if($duplicado->rowCount()==0){
+                #$duplicado = $objAs->verificarDuplicado(trim($_POST['idpersonal']),$_POST['idasistencia']);
+                #if($duplicado->rowCount()==0){
                     $asistencia = array();
                     $asistencia["idasistencia"] = $_POST["idasistencia"];
                     $asistencia["idpersonal"] = trim($_POST["idpersonal"]);
@@ -49,9 +49,9 @@ function controlador($proceso){
                     
                     $retorno['correcto']=true;
                     $retorno['mensaje']="Actualización satisfactoria";
-                }else{
-                    throw new Exception("idpersonal de asistencia ya existe.",1);
-                }                
+                #}else{
+                 #   throw new Exception("idpersonal de asistencia ya existe.",1);
+                #}                
             }catch(Exception $ex){
                 $retorno['correcto']=false;
                 $retorno['mensaje']=$ex->getMessage();

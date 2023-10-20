@@ -1,10 +1,11 @@
 <?php 
-require_once("../modelo/Asistencia.php");
+require_once("../modelo/Personal.php");
 
-$objPer = new Personal();
-$listar = $objPer->listar("",1);
+$objPersonal = new Personal();
+$listar = $objPersonal->listar("","",1);
 
 ?>
+
 <section class="content mt-2">
     <div class="card card-primary">
         <div class="card-header">
@@ -12,24 +13,15 @@ $listar = $objPer->listar("",1);
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Nombre</span>
+                            <span class="input-group-text">Nro</span>
                         </div>
                         <input type="text" class="form-control" id="txtBusquedaNombre" name="txtBusquedaNombre" onkeyup="Buscar()" />
                     </div>
                 </div>
-	 
-               <div class="col-md-3">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Nro. Doc.</span>
-                        </div>
-                        <input type="text" class="form-control" id="txtBusquedaNroDoc" name="txtBusquedaNroDoc" onkeyup="Buscar()" />
-                    </div>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Estado</span>
@@ -41,9 +33,9 @@ $listar = $objPer->listar("",1);
                         </select>
                     </div>                
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <button type="button" class="btn btn-primary" onclick="Buscar()"><span class="fa fa-search"></span> Buscar</button> 
-                    <button type="button" class="btn btn-success" onclick="Nuevo()"><span class="fa fa-plus"></span> Nuevo</button>   
+                    <button type="button" class="btn btn-success" onclick="Nuevo()"><span class="fa fa-plus"></span> Nuevo</button>
                 </div>
             </div>
         </div>
@@ -58,9 +50,8 @@ $listar = $objPer->listar("",1);
     </div>
 </div>
 
-
 <div class="modal fade" id="modal-formulario">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
         <div class="modal-header bg-primary">
             <h4 class="modal-title">Asistencia</h4>
@@ -71,65 +62,38 @@ $listar = $objPer->listar("",1);
         <div class="modal-body">
             <form id="formulario">
                 <div class="row">
-                    <div class="col-md-6">
-                       
+                    <div class="col-12">                    
                         <div class="form-group">
-                            <label>Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre" maxlength="100" />
-                            <input type="hidden" id="idAsistencia" name="idAsistencia" value="0" />
+                            <label>Tipo Personal</label>
+                            <input type="hidden" id="idasistencia" name="idasistencia" value="0" />
                             <input type="hidden" id="proceso" name="proceso" value="" />
-                        </div>      
-                        <div class="form-group">
-                            <label>Apellido</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" maxlength="100" />
-                        </div>                  
-                        <div class="form-group">
-                            <label>Tipo Documento</label>
-                            <select class="form-control" id="idtipodocumento" name="idtipodocumento" >
-                                <?php while($fila = $tipodocumentos->fetch(PDO::FETCH_NAMED) ){ ?>
-                                    <option value="<?= $fila['idtipodocumento']?>"><?= $fila['nombre']?></option>
+                            <select class="form-control select2bs4 required" id="idpersonal" name="idpersonal" >
+                                <?php while($fila = $listar->fetch(PDO::FETCH_NAMED) ){ ?>
+                                    <option value="<?= $fila['idpersonal']?>"><?= $fila['nombre']?></option>
                                 <?php }?>
                             </select>
-                        </div>                        
+                        </div>   
                         <div class="form-group">
-                            <label>N° Documento</label>
-                            <div class="input-group">                            
-                                <input type="text" class="form-control" id="nrodocumento" name="nrodocumento" maxlength="100" />
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-primary" onclick="ConsultarDocumento();">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Tipo Asistencia</label>
-                            <select class="form-control" id="tipoAsistencia" name="tipoAsistencia">
-                                <option value="ESTUDIANTE">ESTUDIANTE</option>
-                                <option value="DOCENTE">DOCENTE</option>
-                                <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
-                                <option value="EXTERNO">EXTERNO</option>
-                            </select>
+                            <label>Fecha</label>
+                            <input type="date" class="form-control" id="fecha" name="fecha" />
                         </div>
                         <div class="form-group">
-                            <label>Celular</label>
-                            <input type="number" class="form-control" id="celular" name="celular" maxlength="200" />
-                        </div>
+                            <label>Hora Entrada</label>
+                            <input type="time" class="form-control" id="horaentrada" name="horaentrada"/>
+                        </div>   
                         <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" class="form-control" id="email" name="email" maxlength="100" />
-                        </div>
+                            <label>Hora Salida</label>
+                            <input type="time" class="form-control" id="horasalida" name="horasalida"  />
+                        </div>     
                         <div class="form-group">
                             <label>Estado</label>
                             <select class="form-control" id="estado" name="estado">
                                 <option value="1">Activo</option>
                                 <option value="0">Anulado</option>
                             </select>
-                        </div>
+                        </div>     
                     </div>
+                  
                 </div>
             <form>
         </div>
@@ -141,8 +105,8 @@ $listar = $objPer->listar("",1);
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->
+</div>
+<!-- /.modal -->
 
     <div class="modal fade" id="modal-confirmacion">
     <div class="modal-dialog">
@@ -178,14 +142,18 @@ $listar = $objPer->listar("",1);
 </section>
 <script>
 
+$("#idpersonal").select2({
+    theme: 'bootstrap4'
+});
+
+
 function Buscar(){
     $.ajax({
         method: "POST",
-        url: "vista/Asistencia_listado.php",
+        url: "vista/asistencias_listado.php",
         data:{
             nombre: $("#txtBusquedaNombre").val(),
-            nrodocumento: $("#txtBusquedaNroDoc").val(),
-            estado: $("#cboBusquedaEstado").val(),
+            estado: $("#cboBusquedaEstado").val()
         }
     }).done(function(resultado){
         $("#divResultadoBusqueda").html(resultado);
@@ -194,12 +162,12 @@ function Buscar(){
 
 Buscar();
 
-
 function Nuevo(){
     $("#proceso").val("NUEVO");
     $("#modal-formulario").modal('show');
     $("#modal-formulario").on('hidden.bs.modal', function(e){
         $("#formulario").trigger("reset");
+      
     })
 }
 
@@ -226,45 +194,21 @@ function Guardar(){
 }
 
 function ValidarFormulario(){
-    retorno = true;
-
-    $("#nombre").removeClass("is-invalid");
-    if($("#nombre").val()==""){
-        $("#nombre").addClass("is-invalid");
-        retorno = false;
-    }
-
-    if($("#apellido").val()==""){
-        $("#apellido").addClass("is-invalid");
-        retorno = false;
-    }
+    retorno = true;    
+    $(".required").each(function(){
+        $(this).removeClass("is-invalid");
+        if($(this).val()=="" || $(this).val()=="0"){
+            $(this).addClass("is-invalid");
+            retorno = false;
+        }
+    });
 
   
-    $("#nrodocumento").removeClass("is-invalid");
-    if($("#nrodocumento").val()==""){
-        $("#nrodocumento").addClass("is-invalid");
-        retorno = false;
-    }
-
 
     return retorno;
 }
 
-function ConsultarDocumento(){
-    $.ajax({
-        method: "POST",
-        url: "controlador/contAsistencia.php",
-        data:{
-            proceso: "CONSULTAR_WS",
-            nrodocumento: $("#nrodocumento").val(),
-            idtipodocumento: $("#idtipodocumento").val()
-        },
-        dataType: "json"
-    }).done(function(resultado){
-        $("#nombre").val(resultado.nombre);
-        $("#direccion").val(resultado.direccion);
-        $("#idtipodocumento").val(resultado.idtipodocumento);
-    });    
-}
+
+
 
 </script>

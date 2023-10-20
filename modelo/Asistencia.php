@@ -4,13 +4,13 @@ require_once("conexion.php");
 class Asistencia{
 
     function listar($nombre, $estado){
-        $sql = "SELECT t1.idsubcategoria, t1.nombre, t1.estado, t2.nombre categoria  
-                FROM subcategoria t1
-                LEFT JOIN categoria t2 ON t1.idcategoria=t2.idcategoria
+        $sql = "SELECT t1.idasistencia, t2.nombre,t1.fecha,t1.horaentrada,t1.horasalida,t1.estado   
+                FROM asistencia t1
+                INNER JOIN personal t2 ON t1.idpersonal=t2.idpersonal
                 WHERE t1.estado<2 ";
         $parametros = array();
         if($nombre!=""){
-            $sql.=" AND t1.nombre LIKE :nombre ";
+            $sql.=" AND t2.nombre LIKE :nombre ";
             $parametros[':nombre'] = "%".$nombre."%";            
         }
         if($estado!=""){
@@ -18,7 +18,7 @@ class Asistencia{
             $parametros[':estado'] = $estado;            
         }
 
-        $sql.=" ORDER BY t1.nombre ";
+        $sql.=" ORDER BY t2.nombre ";
 
         global $cnx;
         $pre = $cnx->prepare($sql);
@@ -31,10 +31,10 @@ class Asistencia{
                 VALUES (NULL, :idpersonal, :fecha, :horaentrada, :horasalida , :estado)";
         $parametros = array(
             ":idpersonal"         =>$asistencia["idpersonal"],   
-            ":fecha"    =>$asistencia["fecha"],       
-            ":horaentrada"         =>$asistencia["horaentrada"],   
-            ":horasalida"        =>$asistencia["horasalida"],   
-            ":estado"          =>$asistencia["estado"]
+            ":fecha"              =>$asistencia["fecha"],       
+            ":horaentrada"        =>$asistencia["horaentrada"],   
+            ":horasalida"         =>$asistencia["horasalida"],   
+            ":estado"             =>$asistencia["estado"]
                  
         );
         global $cnx;
@@ -77,10 +77,10 @@ class Asistencia{
         return $pre;
     }
 
-    function verificarDuplicado($nro, $idasistencia=0){
+    function verificarDuplicado($idpersonal, $idasistencia=0){
         $sql = "SELECT * FROM asistencia 
-                WHERE nro=:nro AND idasistencia<>:idasistencia AND estado<2";
-        $parametros = array(':nro'=>$nro,':idasistencia'=>$idasistencia);
+                WHERE idpersonal=:idpersonal AND idasistencia<>:idasistencia AND estado<2";
+        $parametros = array(':nombre'=>$nombre,':idasistencia'=>$idasistencia);
         global $cnx;
         $pre = $cnx->prepare($sql);
         $pre->execute($parametros);
