@@ -73,17 +73,17 @@ $listar = $objPersonal->listar("","",1);
                                 <?php }?>
                             </select>
                         </div>   
-                        <div class="form-group">
+                        <div class="form-group" >
                             <label>Fecha</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" />
+                            <input type="date" class="form-control" id="fecha" name="fecha" require/>
                         </div>
                         <div class="form-group">
                             <label>Hora Entrada</label>
-                            <input type="time" class="form-control" id="horaentrada" name="horaentrada"/>
+                            <input type="time" class="form-control" id="horaentrada" name="horaentrada" value="00:00"/>
                         </div>   
                         <div class="form-group">
                             <label>Hora Salida</label>
-                            <input type="time" class="form-control" id="horasalida" name="horasalida"  />
+                            <input type="time" class="form-control" id="horasalida" name="horasalida" value="00:00" />
                         </div>     
                         <div class="form-group">
                             <label>Estado</label>
