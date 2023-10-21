@@ -78,7 +78,7 @@ function Editar(idasistencia){
     }).done(function(retorno){
         modoEdicion = true;
         $("#idasistencia").val(retorno.idasistencia);
-        $("#idpersonal").val(retorno.idpersonal);
+        $("#idpersonal").val(retorno.idpersonal).trigger("change");
         $("#fecha").val(retorno.fecha);
         $("#horaentrada").val(retorno.horaentrada);
         $("#horasalida").val(retorno.horasalida);

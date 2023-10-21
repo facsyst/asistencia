@@ -1,5 +1,5 @@
 <?php 
-require_once("../modelo/Personal.php");
+require_once("../modelo/UsoEquipo.php");
 
 $objPersonal = new Personal();
 $listar = $objPersonal->listar("","",1);
