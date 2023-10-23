@@ -1,22 +1,15 @@
-<?php 
-require_once("../modelo/UsoEquipo.php");
-
-$objPersonal = new Personal();
-$listar = $objPersonal->listar("","",1);
-
-?>
 
 <section class="content mt-2">
     <div class="card card-primary">
         <div class="card-header">
-            <h3 class="card-title">Asistencia</h3>
+            <h3 class="card-title">Uso Equipos</h3>
         </div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
                     <div class="input-group">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Nro</span>
+                            <span class="input-group-text">Nombre</span>
                         </div>
                         <input type="text" class="form-control" id="txtBusquedaNombre" name="txtBusquedaNombre" onkeyup="Buscar()" />
                     </div>
@@ -54,7 +47,7 @@ $listar = $objPersonal->listar("","",1);
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
         <div class="modal-header bg-primary">
-            <h4 class="modal-title">Asistencia</h4>
+            <h4 class="modal-title">Uso de Equipo</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
@@ -64,26 +57,22 @@ $listar = $objPersonal->listar("","",1);
                 <div class="row">
                     <div class="col-12">                    
                         <div class="form-group">
-                            <label>Tipo Personal</label>
-                            <input type="hidden" id="idasistencia" name="idasistencia" value="0" />
+                            <label>Nro</label>
+                            <input type="text" class="form-control required" id="nro" name="nro" />
+                            <input type="hidden" id="idusoequipo" name="idusoequipo" value="0" />
                             <input type="hidden" id="proceso" name="proceso" value="" />
-                            <select class="form-control select2bs4 required" id="idpersonal" name="idpersonal" >
-                                <?php while($fila = $listar->fetch(PDO::FETCH_NAMED) ){ ?>
-                                    <option value="<?= $fila['idpersonal']?>"><?= $fila['nombre']?></option>
-                                <?php }?>
-                            </select>
-                        </div>   
-                        <div class="form-group" >
-                            <label>Fecha</label>
-                            <input type="date" class="form-control" id="fecha" name="fecha" required/>
                         </div>
                         <div class="form-group">
-                            <label>Hora Entrada</label>
-                            <input type="time" class="form-control" id="horaentrada" name="horaentrada" value="00:00"/>
+                            <label>Marca</label>
+                            <input type="text" class="form-control" id="marca" name="marca" value="DELL"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Modelo</label>
+                            <input type="text" class="form-control" id="modelo" name="modelo" value="OPTIPLEX 3080" />
                         </div>   
                         <div class="form-group">
-                            <label>Hora Salida</label>
-                            <input type="time" class="form-control" id="horasalida" name="horasalida" value="00:00" />
+                            <label>Serie</label>
+                            <input type="text" class="form-control" id="serie" name="serie"  />
                         </div>     
                         <div class="form-group">
                             <label>Estado</label>
@@ -108,7 +97,7 @@ $listar = $objPersonal->listar("","",1);
 </div>
 <!-- /.modal -->
 
-    <div class="modal fade" id="modal-confirmacion">
+<div class="modal fade" id="modal-confirmacion">
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header bg-danger">
@@ -140,17 +129,19 @@ $listar = $objPersonal->listar("","",1);
     <!-- /.modal -->
 
 </section>
-<script>
 
-$("#idpersonal").select2({
+<script>
+$("#idcategoria").select2({
     theme: 'bootstrap4'
 });
-
+$("#idsubcategoria").select2({
+    theme: 'bootstrap4'
+});
 
 function Buscar(){
     $.ajax({
         method: "POST",
-        url: "vista/asistencias_listado.php",
+        url: "vista/equipos_listado.php",
         data:{
             nombre: $("#txtBusquedaNombre").val(),
             estado: $("#cboBusquedaEstado").val()
@@ -164,6 +155,7 @@ Buscar();
 
 function Nuevo(){
     $("#proceso").val("NUEVO");
+    $("#urlimagen").val("");
     $("#modal-formulario").modal('show');
     $("#modal-formulario").on('hidden.bs.modal', function(e){
         $("#formulario").trigger("reset");
@@ -176,7 +168,7 @@ function Guardar(){
         datax = $("#formulario").serializeArray();
         $.ajax({
             method: "POST",
-            url: "controlador/contAsistencia.php",
+            url: "controlador/contEquipo.php",
             data: datax,
             dataType: 'json'
         }).done(function(resultado){
@@ -188,6 +180,8 @@ function Guardar(){
                 toastError(resultado.mensaje);
             }
         });
+    }else{
+        toastError("Existe errores en tu formulario.");
     }
 }
 
@@ -201,10 +195,6 @@ function ValidarFormulario(){
         }
     });
 
-    if($("#fecha").val()==""){
-        toastError('Debe Ingresar una fecha');          
-    retorno = false;
-    }
   
 
     return retorno;

@@ -4,13 +4,15 @@ require_once("conexion.php");
 class UsoEquipo{
 
     function listar($nombre, $estado){
-        $sql = "SELECT t1.idusoequipo, t2.nombre,t1.idequipo,t1.horaentrada,t1.horasalida,t1.estado   
-                FROM usoequipo t1
-                INNER JOIN personal t2 ON t1.idasistencia=t2.idasistencia
-                WHERE t1.estado<2 ";
+        $sql = "SELECT t1.idusoequipo,t3.nombre ,t2.fecha,t2.horaentrada,t2.horasalida,t4.nro,t4.marca ,t4.serie ,t1.estado 
+        FROM usoequipo t1 
+        INNER JOIN asistencia t2 ON t1.idasistencia=t2.idasistencia 
+        INNER JOIN personal t3 ON t2.idpersonal=t3.idpersonal
+        INNER JOIN equipo t4 ON t1.idequipo = t4.idequipo
+        WHERE t1.estado<2";
         $parametros = array();
         if($nombre!=""){
-            $sql.=" AND t2.nombre LIKE :nombre ";
+            $sql.=" AND t3.nombre LIKE :nombre ";
             $parametros[':nombre'] = "%".$nombre."%";            
         }
         if($estado!=""){
@@ -18,7 +20,7 @@ class UsoEquipo{
             $parametros[':estado'] = $estado;            
         }
 
-        $sql.=" ORDER BY t2.nombre ";
+        $sql.=" ORDER BY t3.nombre ";
 
         global $cnx;
         $pre = $cnx->prepare($sql);
