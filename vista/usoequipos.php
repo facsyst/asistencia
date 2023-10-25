@@ -72,7 +72,9 @@ $equipos = $obEq->listar("",1);
                     <div class="col-12">                    
                         <div class="form-group">
                             <label>Nombre Personal</label>
-                            <select class="form-control select2bs4" style="width: 100%;" name="idcategoria" id="idcategoria">
+                            <input type="hidden" id="idusoequipo" name="idusoequipo" value="0" />
+                            <input type="hidden" id="proceso" name="proceso" value="" />
+                            <select class="form-control select2bs4" style="width: 100%;" name="idasistencia" id="idasistencia">
                                 <option value="">Seleccione uno</option>
                                 <?php while($fila = $asistencias->fetch(PDO::FETCH_NAMED)){ ?>
                                     <option value="<?= $fila['idasistencia'] ?>"><b><?= $fila['nombre'] ?></b></option>
@@ -81,7 +83,7 @@ $equipos = $obEq->listar("",1);
                         </div>    
                         <div class="form-group">
                             <label>N° de Equipo</label>
-                            <select class="form-control select2bs4" style="width: 100%;" name="idcategoria" id="idcategoria">
+                            <select class="form-control select2bs4" style="width: 100%;" name="idequipo" id="idequipo">
                                 <option value="">Seleccione uno</option>
                                 <?php while($fila = $equipos->fetch(PDO::FETCH_NAMED)){ ?>
                                     <option value="<?= $fila['idequipo'] ?>"><b><?= $fila['nro'] ?></b></option>
@@ -182,7 +184,7 @@ function Guardar(){
         datax = $("#formulario").serializeArray();
         $.ajax({
             method: "POST",
-            url: "controlador/contEquipo.php",
+            url: "controlador/contUsoEquipo.php",
             data: datax,
             dataType: 'json'
         }).done(function(resultado){
