@@ -1,3 +1,17 @@
+<?php
+
+require_once("../modelo/Asistencia.php");
+require_once("../modelo/Equipo.php");
+
+$objAs = new Asistencia();
+$asistencias = $objAs->listarAsistenciaPersonal();
+
+
+$obEq = new Equipo();
+$equipos = $obEq->listar("",1);
+
+?>
+
 
 <section class="content mt-2">
     <div class="card card-primary">
@@ -57,23 +71,23 @@
                 <div class="row">
                     <div class="col-12">                    
                         <div class="form-group">
-                            <label>Nro</label>
-                            <input type="text" class="form-control required" id="nro" name="nro" />
-                            <input type="hidden" id="idusoequipo" name="idusoequipo" value="0" />
-                            <input type="hidden" id="proceso" name="proceso" value="" />
-                        </div>
+                            <label>Nombre Personal</label>
+                            <select class="form-control select2bs4" style="width: 100%;" name="idcategoria" id="idcategoria">
+                                <option value="">Seleccione uno</option>
+                                <?php while($fila = $asistencias->fetch(PDO::FETCH_NAMED)){ ?>
+                                    <option value="<?= $fila['idasistencia'] ?>"><b><?= $fila['nombre'] ?></b></option>
+                                <?php }?>
+                            </select>
+                        </div>    
                         <div class="form-group">
-                            <label>Marca</label>
-                            <input type="text" class="form-control" id="marca" name="marca" value="DELL"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Modelo</label>
-                            <input type="text" class="form-control" id="modelo" name="modelo" value="OPTIPLEX 3080" />
-                        </div>   
-                        <div class="form-group">
-                            <label>Serie</label>
-                            <input type="text" class="form-control" id="serie" name="serie"  />
-                        </div>     
+                            <label>N° de Equipo</label>
+                            <select class="form-control select2bs4" style="width: 100%;" name="idcategoria" id="idcategoria">
+                                <option value="">Seleccione uno</option>
+                                <?php while($fila = $equipos->fetch(PDO::FETCH_NAMED)){ ?>
+                                    <option value="<?= $fila['idequipo'] ?>"><b><?= $fila['nro'] ?></b></option>
+                                <?php }?>
+                            </select>
+                        </div>  
                         <div class="form-group">
                             <label>Estado</label>
                             <select class="form-control" id="estado" name="estado">
@@ -141,7 +155,7 @@ $("#idsubcategoria").select2({
 function Buscar(){
     $.ajax({
         method: "POST",
-        url: "vista/equipos_listado.php",
+        url: "vista/usosequipos_listado.php",
         data:{
             nombre: $("#txtBusquedaNombre").val(),
             estado: $("#cboBusquedaEstado").val()

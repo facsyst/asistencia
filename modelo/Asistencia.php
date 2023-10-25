@@ -96,6 +96,19 @@ class Asistencia{
         return $pre;
     }
 
+
+    
+    function listarAsistenciaPersonal(){
+        $sql = "SELECT a.idasistencia, p.nombre 
+        FROM asistencia a
+        INNER JOIN personal p ON a.idpersonal = p.idpersonal 
+        WHERE a.estado <2";
+        global $cnx;
+        $pre = $cnx->query($sql);
+        return $pre;
+    }
+
+
 }
 
 ?>
