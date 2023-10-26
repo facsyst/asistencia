@@ -35,15 +35,15 @@ $estados= array(0=>"ANULADO",1=>"ACTIVO");
             <td><?= $fila['marca'] ?></td>
             <td><?= $fila['serie'] ?></td>
             <td><?= $estados[$fila['estado']] ?></td>
-            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idcategoria'];?>)"><span class="fa fa-edit"></span> </button>
+            <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idusoequipo'];?>)"><span class="fa fa-edit"></span> </button>
             
             <?php if($fila['estado']==1){?>
-                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idcategoria'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> </button>
+                <button class="btn btn-sm btn-warning" onclick="CambiarEstadoModal(<?= $fila['idusoequipo'];?>,0,'<?= $fila['nombre'] ?>')"><span class="fa fa-ban"></span> </button>
             <?php }else{ ?>
-                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idcategoria'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> </button>
+                <button class="btn btn-sm btn-success" onclick="CambiarEstadoModal(<?= $fila['idusoequipo'];?>,1,'<?= $fila['nombre'] ?>')"><span class="fa fa-check"></span> </button>
             <?php }?>
             
-            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idcategoria'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> </button></td>
+            <button class="btn btn-sm btn-danger" onclick="CambiarEstadoModal(<?= $fila['idusoequipo'];?>,2,'<?= $fila['nombre'] ?>')"><span class="fa fa-trash"></span> </button></td>
         </tr>
         <?php }?>
     </tbody>
@@ -71,7 +71,7 @@ $("#tablaCategoria").DataTable({
 function Editar(idusoequipo){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contSubcategoria.php',
+        url:    'controlador/contUsoEquipo.php',
         data:{
             'proceso':'CONSULTAR',
             'idusoequipo': idusoequipo
@@ -79,8 +79,8 @@ function Editar(idusoequipo){
         dataType: 'json'
     }).done(function(retorno){
         $("#idusoequipo").val(retorno.idusoequipo);
-        $("#idcategoria").val(retorno.idcategoria).trigger("change");
-        $("#nombre").val(retorno.nombre);
+        $("#idasistencia").val(retorno.idasistencia).trigger("change");
+        $("#idequipo").val(retorno.idequipo).trigger("change");
         $("#estado").val(retorno.estado);
 
         $("#proceso").val("ACTUALIZAR");
@@ -94,7 +94,7 @@ function Editar(idusoequipo){
 function CambiarEstado(idusoequipo, estado){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contSubcategoria.php',
+        url:    'controlador/contUsoEquipo.php',
         data:{
             'proceso':'CAMBIAR_ESTADO',
             'idusoequipo': idusoequipo,
@@ -119,7 +119,7 @@ function CambiarEstadoModal(idusoequipo,estado,nombre){
     if(estado==1){ texto_accion="ACTIVAR"; }
     if(estado==0){ texto_accion="ANULAR"}
     texto_accion="<b>"+texto_accion+"</b>";
-    texto_accion = texto_accion + " la categoría " + nombre;
+    texto_accion = texto_accion + " El Personal " + nombre;
     $("#texto_accion").html(texto_accion);
     $("#modal-confirmacion").modal('show');
     $("#modal-confirmacion").on('hidden.bs.modal', function(e){

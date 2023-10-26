@@ -4,9 +4,9 @@ require_once("conexion.php");
 class Personal{
 
     function listar($nombre, $nrodoc, $estado){
-        $sql = "SELECT idpersonal,nombre,idtipodocumento,nrodocumento,tipopersonal,celular,email, estado 
-                FROM personal
-                WHERE estado<2 
+        $sql = "SELECT p.idpersonal, p.nombre, t.nombre as tipodoc, p.nrodocumento, p.tipopersonal, p.celular, p.email, p.estado
+                FROM personal as p INNER JOIN tipodocumento t ON p.idtipodocumento =t.idtipodocumento 
+                WHERE p.estado <2;
                 ";
         $parametros = array();
         if($nombre!=""){
@@ -31,12 +31,11 @@ class Personal{
         return $pre;
     }
 
-    function insertar($nombre, $apellido,$idtipodocumento, $nrodocumento,$tipopersonal,$celular,$email ,$estado){
-        $sql = "INSERT INTO personal(idpersonal, nombre, apellido,idtipodocumento,nrodocumento, tipopersonal,celular,email, estado)
-                VALUES(NULL, :nombre,:apellido,:idtipodocumento, :nrodocumento, :tipopersonal,:celular,:email,:estado)";
+    function insertar($nombre,$idtipodocumento, $nrodocumento,$tipopersonal,$celular,$email ,$estado){
+        $sql = "INSERT INTO personal(idpersonal, nombre,idtipodocumento,nrodocumento, tipopersonal,celular,email, estado)
+                VALUES(NULL, :nombre,:idtipodocumento, :nrodocumento, :tipopersonal,:celular,:email,:estado)";
         $parametros = array(
                             ':nombre'        =>$nombre,
-                            ':apellido'        =>$apellido,
                             ':idtipodocumento'=>$idtipodocumento,
                             ':nrodocumento'     => $nrodocumento,
                             ':tipopersonal'     =>  $tipopersonal, 
@@ -50,13 +49,12 @@ class Personal{
         return $pre;        
     }
 
-    function actualizar($idpersonal,$nombre, $apellido,$idtipodocumento, $nrodocumento,$tipopersonal, $celular,$email , $estado){
-        $sql = "UPDATE personal SET nombre=:nombre, apellido=:apellido,idtipodocumento=:idtipodocumento,
+    function actualizar($idpersonal,$nombre,$idtipodocumento, $nrodocumento,$tipopersonal, $celular,$email , $estado){
+        $sql = "UPDATE personal SET nombre=:nombre,idtipodocumento=:idtipodocumento,
                                 nrodocumento=:nrodocumento, tipopersonal=:tipopersonal,celular=:celular,email=:email,estado=:estado
-                WHERE idcliente=:idcliente";
+                WHERE idpersonal=:idpersonal";
         $parametros = array(':idpersonal'=>$idpersonal, 
                             ':nombre'=>$nombre, 
-                            ':apellido'=>$apellido, 
                             ':idtipodocumento'=>$idtipodocumento,
                             ':nrodocumento' => $nrodocumento,
                             ':tipopersonal'    => $tipopersonal,

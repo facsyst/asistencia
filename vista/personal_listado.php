@@ -19,6 +19,7 @@ if(isset($_POST['esbusqueda'])){
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>T.Doc</th>
             <th>N° Doc</th>
             <th>Tipo Personal</th>
             <th>Celular</th>
@@ -37,6 +38,7 @@ if(isset($_POST['esbusqueda'])){
         <tr class="<?= $fila['estado']==1?'':'text-red'?>">
             <td><?= $fila['idpersonal'] ?></td>
             <td><?= $fila['nombre'] ?></td>
+            <td><?= $fila['tipodoc'] ?></td>
             <td><?= $fila['nrodocumento'] ?></td>
             <td><?= $fila['tipopersonal'] ?></td>
             <td><?= $fila['celular'] ?></td>
@@ -44,7 +46,7 @@ if(isset($_POST['esbusqueda'])){
             <td><?= $estados[$fila['estado']] ?></td>
 
             <?php if($esbusqueda){ ?>
-                <td><button class="btn btn-sm btn-info" onclick="Seleccionar(<?= $fila['idperosnal'];?>)"><span class="fa fa-edit"></span> Seleccionar</button></td>
+                <td><button class="btn btn-sm btn-info" onclick="Seleccionar(<?= $fila['idpersonal'];?>)"><span class="fa fa-edit"></span> Seleccionar</button></td>
             <?php }else{ ?>
                 <td><button class="btn btn-sm btn-info" onclick="Editar(<?= $fila['idpersonal'];?>)"><span class="fa fa-edit"></span> </button>
                 
@@ -83,7 +85,7 @@ $("#tablaPersonal").DataTable({
 function Editar(idpersonal){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contCliente.php',
+        url:    'controlador/contPersonal.php',
         data:{
             'proceso':'CONSULTAR',
             'idpersonal': idpersonal
@@ -92,9 +94,11 @@ function Editar(idpersonal){
     }).done(function(retorno){
         $("#idpersonal").val(retorno.idpersonal);
         $("#nombre").val(retorno.nombre);
-        $("#idtipodocumento").val(retorno.idtipodocumento);
+        $("#idtipodocumento").val(retorno.idtipodocumento).trigger("change");
         $("#nrodocumento").val(retorno.nrodocumento);
-        $("#direccion").val(retorno.direccion);
+        $("#tipopersonal").val(retorno.tipopersonal).trigger("change");
+        $("#celular").val(retorno.celular);
+        $("#email").val(retorno.email);
         $("#estado").val(retorno.estado);
 
         $("#proceso").val("ACTUALIZAR");
@@ -108,7 +112,7 @@ function Editar(idpersonal){
 function CambiarEstado(idpersonal, estado){
     $.ajax({
         method: 'POST',
-        url:    'controlador/contCliente.php',
+        url:    'controlador/contPersonal.php',
         data:{
             'proceso':'CAMBIAR_ESTADO',
             'idpersonal': idpersonal,

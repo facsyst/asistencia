@@ -76,7 +76,7 @@ class UsoEquipo{
     function verificarDuplicado($idasistencia, $idusoequipo=0){
         $sql = "SELECT * FROM usoequipo 
                 WHERE idasistencia=:idasistencia AND idusoequipo<>:idusoequipo AND estado<2";
-        $parametros = array(':nombre'=>$nombre,':idusoequipo'=>$idusoequipo);
+        $parametros = array(':idasistencia'=>$idasistencia,':idusoequipo'=>$idusoequipo);
         global $cnx;
         $pre = $cnx->prepare($sql);
         $pre->execute($parametros);

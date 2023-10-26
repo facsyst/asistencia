@@ -79,10 +79,7 @@ $tipodocumentos = $objPersonal->listarTipoDocumento();
                             <input type="hidden" id="idpersonal" name="idpersonal" value="0" />
                             <input type="hidden" id="proceso" name="proceso" value="" />
                         </div>      
-                        <div class="form-group">
-                            <label>Apellido</label>
-                            <input type="text" class="form-control" id="apellido" name="apellido" maxlength="100" />
-                        </div>                  
+                        
                         <div class="form-group">
                             <label>Tipo Documento</label>
                             <select class="form-control" id="idtipodocumento" name="idtipodocumento" >

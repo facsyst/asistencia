@@ -12,7 +12,6 @@ function controlador($proceso){
                 $duplicado = $objPer->verificarDuplicado(trim($_POST['nrodocumento']));
                 if($duplicado->rowCount()==0){
                     $objPer->insertar(trim($_POST['nombre']), 
-                                            $_POST['apellido'], 
                                             $_POST['idtipodocumento'], 
                                             $_POST['nrodocumento'], 
                                             $_POST['tipopersonal'],
@@ -34,13 +33,20 @@ function controlador($proceso){
         case "ACTUALIZAR":
             $retorno = array();
             try{
-                $duplicado = $objPer->verificarDuplicado(trim($_POST['nrodocumento']),$_POST['idcliente']);
+                $duplicado = $objPer->verificarDuplicado(trim($_POST['nrodocumento']),$_POST['idpersonal']);
                 if($duplicado->rowCount()==0){
-                    $objPer->actualizar($_POST['idcliente'],trim($_POST['nombre']),$_POST['idtipodocumento'], $_POST['nrodocumento'], $_POST['direccion'], $_POST['estado']);                 
+                    $objPer->actualizar($_POST['idpersonal'],
+                                       trim($_POST['nombre']),
+                                       $_POST['idtipodocumento'], 
+                                       $_POST['nrodocumento'], 
+                                       $_POST['tipopersonal'], 
+                                       $_POST['celular'],
+                                       $_POST['email'], 
+                                       $_POST['estado']);                 
                     $retorno['correcto']=true;
                     $retorno['mensaje']="Actualización satisfactoria";
                 }else{
-                    throw new Exception("Documento de Cliente ya existe.",1);
+                    throw new Exception("Documento de Personal ya existe.",1);
                 }                
             }catch(Exception $ex){
                 $retorno['correcto']=false;
@@ -52,7 +58,7 @@ function controlador($proceso){
             case "CAMBIAR_ESTADO":
                 $retorno = array();
                 try{
-                    $objPer->cambiarEstado($_POST['idcliente'],$_POST['estado']);                 
+                    $objPer->cambiarEstado($_POST['idpersonal'],$_POST['estado']);                 
                     $retorno['correcto']=true;
                     $retorno['mensaje']="Cambio de estado satisfactorio";                
                 }catch(Exception $ex){
@@ -65,7 +71,7 @@ function controlador($proceso){
         case 'CONSULTAR':
             $retorno = array();
             try{
-                $registro = $objPer->consultar($_POST['idcliente']);
+                $registro = $objPer->consultar($_POST['idpersonal']);
                 $retorno = $registro->fetch(PDO::FETCH_NAMED); 
             }catch(Exception $ex){
                 //nada
