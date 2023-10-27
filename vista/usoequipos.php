@@ -44,6 +44,23 @@ $equipos = $obEq->listar("",1);
                     <button type="button" class="btn btn-primary" onclick="Buscar()"><span class="fa fa-search"></span> Buscar</button> 
                     <button type="button" class="btn btn-success" onclick="Nuevo()"><span class="fa fa-plus"></span> Nuevo</button>
                 </div>
+
+                <div class="col-md-4 mt-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Desde</span>
+                        </div>
+                        <input type="date" class="form-control" id="txtFechaDesde" name="txtFechaDesde" value="<?= date('Y-m-01'); ?>"/>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-2">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Hasta</span>
+                        </div>
+                        <input type="date" class="form-control" id="txtFechaHasta" name="txtFechaHasta"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -159,6 +176,8 @@ function Buscar(){
         method: "POST",
         url: "vista/usosequipos_listado.php",
         data:{
+            desde: $("#txtFechaDesde").val(),
+            hasta: $("#txtFechaHasta").val(),
             nombre: $("#txtBusquedaNombre").val(),
             estado: $("#cboBusquedaEstado").val()
         }
@@ -166,8 +185,8 @@ function Buscar(){
         $("#divResultadoBusqueda").html(resultado);
     });
 }
-
 Buscar();
+
 
 function Nuevo(){
     $("#proceso").val("NUEVO");

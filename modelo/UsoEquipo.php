@@ -3,14 +3,24 @@ require_once("conexion.php");
 
 class UsoEquipo{
 
-    function listar($nombre, $estado){
-        $sql = "SELECT t1.idusoequipo,t3.nombre,t3.nrodocumento ,t2.fecha,t2.horaentrada,t2.horasalida,t4.nro,t4.marca ,t4.serie ,t1.estado 
+    function listar($desde,$hasta,$nombre, $estado){
+        $sql = "SELECT t1.idusoequipo,t3.nombre,t3.nrodocumento ,DATE_FORMAT(t2.fecha,'%d/%m/%Y') fecha,t2.horaentrada,t2.horasalida,t4.nro,t4.marca ,t4.serie ,t1.estado 
         FROM usoequipo t1 
         INNER JOIN asistencia t2 ON t1.idasistencia=t2.idasistencia 
         INNER JOIN personal t3 ON t2.idpersonal=t3.idpersonal
         INNER JOIN equipo t4 ON t1.idequipo = t4.idequipo
         WHERE t1.estado<2";
         $parametros = array();
+
+        if($desde!=""){
+            $sql.=" AND t2.fecha>=:desde ";
+            $parametros[':desde']=$desde;
+        }
+        if($hasta!=""){
+            $sql.=" AND t2.fecha<=:hasta ";
+            $parametros[':hasta']=$hasta;
+        }
+
         if($nombre!=""){
             $sql.=" AND t3.nombre LIKE :nombre ";
             $parametros[':nombre'] = "%".$nombre."%";            

@@ -3,7 +3,7 @@ require_once("../modelo/UsoEquipo.php");
 
 $objUsEq = new UsoEquipo();
 
-$listado = $objUsEq->listar($_POST['nombre'], $_POST['estado']);
+$listado = $objUsEq->listar($_POST['desde'],$_POST['hasta'],$_POST['nombre'], $_POST['estado']);
 $estados= array(0=>"ANULADO",1=>"ACTIVO");
 ?>
 <table id="tablaCategoria" class="table table-bordered table-hover table-striped table-sm">

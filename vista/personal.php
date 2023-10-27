@@ -4,6 +4,13 @@ require_once("../modelo/Personal.php");
 $objPersonal = new Personal();
 $tipodocumentos = $objPersonal->listarTipoDocumento();
 
+$esbusqueda = false;
+if(isset($_POST['busqueda'])){
+    if($_POST['busqueda']==1){
+        $esbusqueda = true;
+    }
+}
+
 ?>
 <section class="content mt-2">
     <div class="card card-primary">
@@ -43,7 +50,9 @@ $tipodocumentos = $objPersonal->listarTipoDocumento();
                 </div>
                 <div class="col-md-3">
                     <button type="button" class="btn btn-primary" onclick="Buscar()"><span class="fa fa-search"></span> Buscar</button> 
-                    <button type="button" class="btn btn-success" onclick="Nuevo()"><span class="fa fa-plus"></span> Nuevo</button>   
+                    <?php if(!$esbusqueda){?>    
+                        <button type="button" class="btn btn-success" onclick="Nuevo()"><span class="fa fa-plus"></span> Nuevo</button>
+                    <?php }?> 
                 </div>
             </div>
         </div>
@@ -58,7 +67,7 @@ $tipodocumentos = $objPersonal->listarTipoDocumento();
     </div>
 </div>
 
-
+<?php if(!$esbusqueda){ ?>
 <div class="modal fade" id="modal-formulario">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -171,7 +180,7 @@ $tipodocumentos = $objPersonal->listarTipoDocumento();
     <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-
+<?php } ?>
 </section>
 <script>
 
@@ -183,6 +192,7 @@ function Buscar(){
             nombre: $("#txtBusquedaNombre").val(),
             nrodocumento: $("#txtBusquedaNroDoc").val(),
             estado: $("#cboBusquedaEstado").val(),
+            esbusqueda: <?php echo $esbusqueda?1:0;?>
         }
     }).done(function(resultado){
         $("#divResultadoBusqueda").html(resultado);
@@ -190,8 +200,7 @@ function Buscar(){
 }
 
 Buscar();
-
-
+<?php if(!$esbusqueda){?>
 function Nuevo(){
     $("#proceso").val("NUEVO");
     $("#modal-formulario").modal('show');
@@ -263,5 +272,5 @@ function ConsultarDocumento(){
         $("#idtipodocumento").val(resultado.idtipodocumento);
     });    
 }
-
+<?php } ?>
 </script>
