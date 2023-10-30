@@ -60,6 +60,10 @@ $equipos = $obEq->listar("",1);
                         </div>
                         <input type="date" class="form-control" id="txtFechaHasta" name="txtFechaHasta"/>
                     </div>
+                    
+                </div>
+                <div class="col-md-4 mt-2">
+                    <button type="button" class="btn btn-primary" onclick="window.location.href='vista/pdfUsoEquipo.php'"><span class="fa fa-print"></span> Imprimir PDF</button> 
                 </div>
             </div>
         </div>

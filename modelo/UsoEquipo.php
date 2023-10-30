@@ -30,7 +30,7 @@ class UsoEquipo{
             $parametros[':estado'] = $estado;            
         }
 
-        $sql.=" ORDER BY t3.nombre ";
+        $sql.=" ORDER BY t2.fecha desc ";
 
         global $cnx;
         $pre = $cnx->prepare($sql);
