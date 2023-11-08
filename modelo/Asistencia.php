@@ -6,7 +6,7 @@ class Asistencia{
     function listar($nombre, $estado){
         $sql = "SELECT t1.idasistencia, t2.nombre,t1.fecha,t1.horaentrada,t1.horasalida,t1.estado   
                 FROM asistencia t1
-                INNER JOIN personal t2 ON t1.idpersonal=t2.idpersonal
+                INNER JOIN docente t2 ON t1.iddocente=t2.iddocente
                 WHERE t1.estado<2 ";
         $parametros = array();
         if($nombre!=""){

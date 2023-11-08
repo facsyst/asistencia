@@ -45,16 +45,11 @@ $pdf->Cell(20,6,"PRECIO",1,0,'C',0);
 $pdf->Cell(25,6,"SUBTOTAL",1,1,'C',0);
 
 $pdf->SetFont('Arial','',8);
-$i=1;
-while($fila = $listado->fetch(PDO::FETCH_NAMED)){
-	$pdf->Cell(10,6,$i,1,0,'C',0);
-	$pdf->Cell(20,6,(float) $fila['nombre'],1,0,'C',0);
-	$pdf->Cell(80,6,$fila['nombre'],1,0,'L',0);
-	$pdf->Cell(20,6,(float) $fila['nrodocumento'],1,0,'C',0);
-	$pdf->Cell(25,6,(float) $fila['total'],1,1,'C',0);
-	$i++;
-}
+
 
 
 
 $pdf->Output();
+
+
+?>

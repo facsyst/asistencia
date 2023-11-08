@@ -6,7 +6,8 @@ $objUsEq = new UsoEquipo();
 $listado = $objUsEq->listar($_POST['desde'],$_POST['hasta'],$_POST['nombre'], $_POST['estado']);
 $estados= array(0=>"ANULADO",1=>"ACTIVO");
 ?>
-<table id="tablaCategoria" class="table table-bordered table-hover table-striped table-sm">
+
+<table id="tablaUsoEqui" class="table table-bordered table-hover table-striped table-sm">
     <thead>
         <tr>
             <th>Código</th>
@@ -48,8 +49,11 @@ $estados= array(0=>"ANULADO",1=>"ACTIVO");
         <?php }?>
     </tbody>
 </table>
+<div class="col-md-4 mt-2">
+    <button type="button" class="btn btn-primary" onclick='imprimir()'><span class="fa fa-print"></span> Imprimir PDF</button> 
+</div>
 <script>
-$("#tablaCategoria").DataTable({
+$("#tablaUsoEqui").DataTable({
       "paging": true,
       "responsive": true, 
       "lengthChange": false, 
@@ -65,7 +69,53 @@ $("#tablaCategoria").DataTable({
 				 }
 			},
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#tablaCategoria_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#tablaUsoEqui_wrapper .col-md-6:eq(0)');
+
+   
+$(document).ready(function() {
+    $('#tablaUsoEqui').DataTable();
+});
+
+
+function imprimir() {
+  // Obtén los datos de la tabla
+  var table = $('#tablaUsoEqui').DataTable();
+  var datos = table.rows().data().toArray();
+
+  // Realiza la solicitud AJAX para generar el PDF
+  $.ajax({
+    method: "POST",
+    url: "vista/pdfUsoEquipo.php",
+    data: { datos: datos },
+    dataType: 'json',
+    success: function(response) {
+
+        console.log(response);
+        console.log(datos);
+      // La respuesta del servidor contiene la URL del PDF generado
+      alert('PDF generado correctamente. Abriendo el PDF en una nueva ventana.');
+
+      // Abre el PDF en una nueva ventana
+      window.open(response.url, '_blank');
+    },
+    error: function(error) {
+      alert('Error al generar el PDF.');
+      console.error(error);
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function Editar(idusoequipo){
