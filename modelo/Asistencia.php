@@ -27,10 +27,13 @@ class Asistencia{
     }
 
     function insertar($asistencia){
-        $sql = "INSERT INTO asistencia(idasistencia, idpersonal, fecha, horaentrada,horasalida ,estado)
-                VALUES (NULL, :idpersonal, :fecha, :horaentrada, :horasalida , :estado)";
+        $sql = "INSERT INTO asistencia(idasistencia, iddocente, idcurso,semestre,ciclo ,fecha, horaentrada,horasalida ,estado)
+                VALUES (NULL, :iddocente,:idcurso,:semestre,:ciclo,:fecha, :horaentrada, :horasalida , :estado)";
         $parametros = array(
-            ":idpersonal"         =>$asistencia["idpersonal"],   
+            ":iddocente"         =>$asistencia["iddocente"],   
+            ":idcurso"         =>$asistencia["idcurso"], 
+            ":semestre"         =>$asistencia["semestre"], 
+            ":ciclo"            =>$asistencia["ciclo"], 
             ":fecha"              =>$asistencia["fecha"],       
             ":horaentrada"        =>$asistencia["horaentrada"],   
             ":horasalida"         =>$asistencia["horasalida"],   
@@ -43,10 +46,14 @@ class Asistencia{
         return $pre;        
     }
 
+    
     function actualizar($asistencia){
         $sql = "UPDATE asistencia SET 
         idasistencia =:idasistencia,
-        idpersonal = :idpersonal,
+        iddocente = :iddocente,
+        idcurso = :idcurso,
+        semestre=:semestre,
+        ciclo=:ciclo,
         fecha = :fecha,
         horaentrada = :horaentrada,
         horasalida = :horasalida,
@@ -55,7 +62,10 @@ class Asistencia{
         WHERE idasistencia=:idasistencia";
         $parametros = array(
             ":idasistencia"     =>$asistencia["idasistencia"],
-            ":idpersonal"         =>$asistencia["idpersonal"],   
+            ":iddocente"         =>$asistencia["iddocente"],   
+            ":idcurso"         =>$asistencia["iddocente"],
+            ":semestre"         =>$asistencia["semestre"],  
+            ":ciclo"         =>$asistencia["ciclo"],       
             ":fecha"    =>$asistencia["fecha"],       
             ":horaentrada"         =>$asistencia["horaentrada"],   
             ":horasalida"        =>$asistencia["horasalida"],   
@@ -77,9 +87,9 @@ class Asistencia{
         return $pre;
     }
 
-    function verificarDuplicado($idpersonal, $idasistencia=0){
+    function verificarDuplicado($iddocente, $idasistencia=0){
         $sql = "SELECT * FROM asistencia 
-                WHERE idpersonal=:idpersonal AND idasistencia<>:idasistencia AND estado<2";
+                WHERE iddocente=:iddocente AND idasistencia<>:idasistencia AND estado<2";
         $parametros = array(':nombre'=>$nombre,':idasistencia'=>$idasistencia);
         global $cnx;
         $pre = $cnx->prepare($sql);
@@ -101,7 +111,7 @@ class Asistencia{
     function listarAsistenciaPersonal(){
         $sql = "SELECT a.idasistencia, p.nombre 
         FROM asistencia a
-        INNER JOIN personal p ON a.idpersonal = p.idpersonal 
+        INNER JOIN personal p ON a.iddocente = p.iddocente 
         WHERE a.estado <2";
         global $cnx;
         $pre = $cnx->query($sql);

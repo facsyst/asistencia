@@ -11,14 +11,18 @@ function controlador($proceso){
             try{
                 #$duplicado = $objAs->verificarDuplicado(trim($_POST['idpersonal']));
                 #if($duplicado->rowCount()==0){
+                   
                     $asistencia = array();
-                    $asistencia["idpersonal"] = trim($_POST["idpersonal"]);
+                    $asistencia["iddocente"] = $_POST["iddocente"];
+                    $asistencia["idcurso"] = $_POST["idcurso"];
+                    $asistencia["semestre"] = $_POST["semestre"];
+                    $asistencia["ciclo"] = $_POST["ciclo"];
                     $asistencia["fecha"] = $_POST["fecha"];
                     $asistencia["horaentrada"] = $_POST["horaentrada"];
                     $asistencia["horasalida"] = $_POST["horasalida"];
                     $asistencia["estado"] = $_POST["estado"];                                                       
                     
-                    $objAs->insertar($asistencia);  
+                    $resultado = $objAs->insertar($asistencia);   
                                    
                     $retorno['correcto']=true;
                     $retorno['mensaje']="Registro satisfactorio";
@@ -39,11 +43,14 @@ function controlador($proceso){
                 #if($duplicado->rowCount()==0){
                     $asistencia = array();
                     $asistencia["idasistencia"] = $_POST["idasistencia"];
-                    $asistencia["idpersonal"] = trim($_POST["idpersonal"]);
+                    $asistencia["iddocente"] = $_POST["iddocente"];
+                    $asistencia["idcurso"] = $_POST["idcurso"];
+                    $asistencia["semestre"] = $_POST["semestre"];
+                    $asistencia["ciclo"] = $_POST["ciclo"];
                     $asistencia["fecha"] = $_POST["fecha"];
                     $asistencia["horaentrada"] = $_POST["horaentrada"];
                     $asistencia["horasalida"] = $_POST["horasalida"];
-                    $asistencia["estado"] = $_POST["estado"]; 
+                    $asistencia["estado"] = $_POST["estado"];   
 
                     $objAs->actualizar($asistencia);                 
                     

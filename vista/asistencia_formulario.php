@@ -60,7 +60,7 @@ $listcurso = $objCurso->listar("",1);
 </div>
 
 <div class="modal fade" id="modal-formulario">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
         <div class="modal-header bg-primary">
             <h4 class="modal-title">Equipo</h4>
