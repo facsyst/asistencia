@@ -12,7 +12,8 @@ class Asistencia{
         if($nombre!=""){
             $sql.=" AND t2.nombre LIKE :nombre ";
             $parametros[':nombre'] = "%".$nombre."%";            
-        }
+        }SELECT idasistencia, iddocente, idcurso, semestre, ciclo, fecha, horaentrada, horasalida, estado
+        FROM bdasistencia.asistencia;
         if($estado!=""){
             $sql.=" AND t1.estado = :estado ";
             $parametros[':estado'] = $estado;            
